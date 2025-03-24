@@ -77,13 +77,18 @@ const verifyOTP = async (email: string, otp: string) => {
 
     await deleteOTP(otp);
 
+    let updatedUser = await updateUser(user._id as string, {verified: true});
+    if(!updatedUser) {
+        throw FAILED_USER_UPDATE;
+    }
+
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
         expiresIn: '12h',
         });
     return {
-        id: user._id,
-        name: user.name,
-        email: user.email,
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
         token: token
     };
 }

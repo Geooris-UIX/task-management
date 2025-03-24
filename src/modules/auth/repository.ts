@@ -21,8 +21,8 @@ const createUser = async (data: Partial<IUser> ) => {
     return await UserModel.create(data);
 }
 
-const updateUser = async (userId: string, data: Partial<IUser>) => {
-    return await UserModel.findByIdAndUpdate(userId, data, {new: true, runValidators: true});
+const updateUser = async (id: string, data: Partial<IUser>) => {
+    return await UserModel.findByIdAndUpdate(id, data, {new: true, runValidators: true});
 }
 
 export {findUserByEmail, findUser, createUser, updateUser, findAllUsers}

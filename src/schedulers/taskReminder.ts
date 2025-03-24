@@ -18,11 +18,12 @@ export const taskReminder = async () =>{
         }, { _id: 1, title: 1, description: 1, dueDate: 1}).populate("owner", "name email -_id").populate("assignedUser", "name email -_id");
 
         taskData.map(async (data: any) => {
-            await TaskModel.findByIdAndUpdate(data._id, {remainderSent: true})
             
             let emails: string[] = [data.owner, ...[data.assignedUser]].map( (user) => {return user.email} )
 
             await reminderMail(emails, data.title, data.description, data.dueDate.toLocaleString("en-US"));
+            
+            await TaskModel.findByIdAndUpdate(data._id, {remainderSent: true})
         })
         
 }
